@@ -1,24 +1,21 @@
 /* Page background */
 .page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #eef2ff, #f8fafc);
   display: flex;
   justify-content: center;
-  align-items: center;
-  font-family: "Segoe UI", Arial, sans-serif;
-  padding: 20px;
+  align-items: flex-start;   /* keep top aligned */
+  padding: 40px ;
 }
 
 /* Main card */
 .card {
+  width: 40%;
+  max-width: 1400px;   /* increase this value */
   background: white;
-  padding: 30px 25px;
-  width: 400px;
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  transition: transform 0.2s ease;
+  padding: 30px;
+  border-radius: 12px;
 }
+
 
 .card:hover {
   transform: translateY(-5px);
@@ -157,4 +154,45 @@
 .bad {
   color: red;
   font-weight: bold;
+}
+/* Side-by-side layout */
+.result-wrapper {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  align-items: stretch;
+  justify-content: space-between;
+}
+
+/* Left card */
+.result-card {
+  flex: 1;
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+/* Right card */
+.health-card {
+  flex: 1;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  border-left: 4px solid #4caf50;
+}
+
+/* Suggestion styling */
+.suggestion-block ul {
+  padding-left: 20px;
+}
+
+.suggestion-block li {
+  margin-bottom: 6px;
+}
+
+/* Responsive (mobile friendly) */
+@media (max-width: 768px) {
+  .result-wrapper {
+    flex-direction: column;
+  }
 }

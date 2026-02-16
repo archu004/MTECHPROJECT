@@ -101,7 +101,6 @@ function App() {
 
         {/* File Upload & Webcam Buttons */}
         <div className="button-row">
-          {/* Hidden file input */}
           <input
             type="file"
             accept="image/*"
@@ -110,30 +109,41 @@ function App() {
             onChange={(e) => setImage(e.target.files[0])}
           />
 
-          {/* Custom file upload button */}
           <label htmlFor="file-upload" className="camera-button">
             🖼️ Upload Image
           </label>
 
-          {/* Webcam button */}
           <button className="secondary-button" onClick={openCamera}>
             📹 Use Webcam
           </button>
         </div>
 
         {/* Webcam Preview */}
-        <div className="camera-box" style={{ display: cameraOn ? "block" : "none" }}>
+        <div
+          className="camera-box"
+          style={{ display: cameraOn ? "block" : "none" }}
+        >
           <video ref={videoRef} autoPlay playsInline className="video" />
           <div className="button-row">
-            <button className="button" onClick={capturePhoto}>Capture</button>
-            <button className="secondary-button" onClick={closeCamera}>Cancel</button>
+            <button className="button" onClick={capturePhoto}>
+              Capture
+            </button>
+            <button className="secondary-button" onClick={closeCamera}>
+              Cancel
+            </button>
           </div>
         </div>
 
         <canvas ref={canvasRef} style={{ display: "none" }} />
 
         {/* Image Preview */}
-        {image && <img src={URL.createObjectURL(image)} alt="preview" className="preview" />}
+        {image && (
+          <img
+            src={URL.createObjectURL(image)}
+            alt="preview"
+            className="preview"
+          />
+        )}
 
         {/* Age Input */}
         <input
@@ -152,20 +162,79 @@ function App() {
         {/* Error */}
         {error && <p className="error">{error}</p>}
 
+        {/* ========================= */}
         {/* Prediction Result */}
+        {/* ========================= */}
+
         {result && (
-          <div className="result-card">
-            <h3>📊 Result</h3>
-            <p><b>Predicted Group:</b> {result.predicted_group}</p>
-            <p><b>Biological Age:</b> {result.biological_age}</p>
-            <p>
-              <b>Deviation:</b>{" "}
-              <span className={result.deviation_years < 0 ? "good" : "bad"}>
-                {result.deviation_years} years
-              </span>
-            </p>
-          </div>
-        )}
+  <div className="result-wrapper">
+    
+    {/* LEFT SIDE - Prediction Summary */}
+    <div className="result-card">
+      <h3>📊 Result</h3>
+
+      <p>
+        <b>Predicted Group:</b> {result.predicted_group}
+      </p>
+
+      <p>
+        <b>Biological Age:</b> {result.biological_age}
+      </p>
+
+      <p>
+        <b>Deviation:</b>{" "}
+        <span className={result.deviation_years < 0 ? "good" : "bad"}>
+          {result.deviation_years} years
+        </span>
+      </p>
+    </div>
+
+    {/* RIGHT SIDE - Health Analysis */}
+    {result.health_analysis && (
+      <div className="health-card">
+        <h3>🩺 Health Analysis</h3>
+
+        <p>
+          <b>Status:</b> {result.health_analysis.status}
+        </p>
+
+        <p>
+          <b>Risk Level:</b>{" "}
+          <span
+            className={
+              result.health_analysis.risk_level === "Elevated"
+                ? "bad"
+                : result.health_analysis.risk_level === "Good"
+                ? "good"
+                : ""
+            }
+          >
+            {result.health_analysis.risk_level}
+          </span>
+        </p>
+
+        <div className="suggestion-block">
+          <h5>🥗 Food Suggestions</h5>
+          <ul>
+            {result.health_analysis.food_suggestions.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="suggestion-block">
+          <h5>🏃 Lifestyle Suggestions</h5>
+          <ul>
+            {result.health_analysis.lifestyle_suggestions.map((item, index) => (
+              <li key={index}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    )}
+  </div>
+)}
+
       </div>
     </div>
   );
